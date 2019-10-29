@@ -4,20 +4,45 @@ var execute = function(command) {
     xhttp.send();
 }
 
-$(document).ready(function () {
+var sendCommand = function() {
+    var command = $("#command-box").val();
+    var erase = $("#erase").is(':checked');
+
+    if (erase) {
+        $("#command-box").val("");
+    }
+
+    $("#output").append('<div class="command">' + command + '</div>');   
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            $("#output").append('<div class="response">' + this.responseText + '</div>');
+            updateColors();
+        }
+    };
+
+    command = command.trim().replace(new RegExp(" ", 'g'), "/");
+    xhttp.open("GET", "http://192.168.0.9/" + command, true);
+    xhttp.send();
+}
+
+var updateColors = function() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var colors = this.responseText.split(" ");
-            var value = parseFloat(colors[0]) * 100;
-            //$("#red").val(value);
-            $(".slider").each(function (i) {
+            $(".slider input").each(function (i) {
                 this.value = parseFloat(colors[i]) * 100;
-            })
+            });
         }
     };
     xhttp.open("GET", "http://192.168.0.9/color", true);
     xhttp.send();
+}
+
+$(document).ready(function () {
+    updateColors();
 
     $("#on").click(function () {
         execute("on");
@@ -27,11 +52,19 @@ $(document).ready(function () {
         execute("off");
     });
 
-    $(".slider").on('input', function () {
+    $(".slider input").on('input', function () {
         var command = "color";
-        $(".slider").each(function (i) {
+        $(".slider input").each(function (i) {
             command += "/" + (this.value / 100);
         })
         execute(command);
-    })
+    });
+
+    $("#send").click(sendCommand);
+
+    $("#command-box").on('keypress',function(e) {
+        if(e.which == 13) {
+            sendCommand();
+        }
+    });
 });

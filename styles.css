@@ -1,9 +1,10 @@
 body {
-    background: rgb(24, 24, 24);
+    background: #181818;
+    color: lightgrey;
 }
 
-#main-div {
-    margin: auto;
+.main-div {
+    margin: 0 auto 10px;
     max-width: 500px;
     background: rgb(36, 36, 36);
     padding: 20px;
@@ -15,12 +16,12 @@ body {
     margin-bottom: 16px;
 }
 
-.slidecontainer {
+.slider {
     width: 100%;
     padding: 10px 0;
 }
 
-.slider {
+.slider input {
     -webkit-appearance: none;
     width: 100%;
     height: 15px;
@@ -32,11 +33,11 @@ body {
     transition: opacity .2s;
 }
 
-.slider:hover {
+.slider input:hover {
     opacity: 1;
 }
 
-.slider::-webkit-slider-thumb {
+.slider input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 25px;
@@ -45,7 +46,7 @@ body {
     cursor: pointer;
 }
 
-.slider::-moz-range-thumb {
+.slider input::-moz-range-thumb {
     width: 25px;
     height: 25px;
     border-radius: 50%;
@@ -72,7 +73,7 @@ body {
     background: #ffee52
 }
 
-.button {
+button {
     border: none;
     color: white;
     border-radius: 2px;
@@ -83,12 +84,90 @@ body {
     display: inline-block;
     font-size: 16px;
     margin: 0 2px;
+    outline: none;
 }
 
-#on {
+.green {
     background-color: #4CAF50;
 }
 
-#off {
-    background-color: rgb(175, 76, 76);
+.green:hover {
+    background-color: #53c057;
+}
+
+.green:active {
+    background-color: #46a049;
+}
+
+.red {
+    background-color: #af4c4c;
+}
+
+.red:hover {
+    background-color: #c05555;
+}
+
+.red:active {
+    background-color: #9e4545;
+}
+
+.console {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 2px solid #3a3a3a;
+    background: #181818;
+    color: lightgrey;
+    outline: none;
+    font: 400 13.3333px Arial;
+}
+
+#output {
+    resize: vertical;
+    overflow: auto;
+    height: 250px;
+}
+
+#output * {
+    margin-bottom: 2px;
+}
+
+#output::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+#output::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+#output::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+#buttons-container {
+    position: relative;
+    width: 100%;
+    height: 44px;
+    margin-top: 8px;
+}
+
+#console-buttons {
+    position: absolute;
+    right: 0px;
+    display: block;
+}
+
+#console-buttons label {
+    margin-right: 20px;
+}
+
+.command {
+    color: #64c6ff;
+}
+
+.response {
+    color: #78ff67;
 }
