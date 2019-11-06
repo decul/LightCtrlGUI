@@ -13,11 +13,13 @@ var sendCommand = function() {
     }
 
     $("#output").append('<div class="command">' + command + '</div>');   
+    $("#output").scrollTop($("#output")[0].scrollHeight);
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             $("#output").append('<div class="response">' + this.responseText + '</div>');
+            $("#output").scrollTop($("#output")[0].scrollHeight);
             updateColors();
         }
     };
@@ -41,8 +43,10 @@ var updateColors = function() {
     xhttp.send();
 }
 
-$(document).ready(function () {
+var initialize = function () {
     updateColors();
+
+    $(window).on('focus', updateColors);
 
     $("#on").click(function () {
         execute("on");
@@ -67,4 +71,23 @@ $(document).ready(function () {
             sendCommand();
         }
     });
-});
+};
+
+
+
+var loadSite = function() {
+    var url = "https://decul.github.io/LightCtrl/";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            document.children[0].innerHTML = this.responseText;
+            $('link').each(function() {
+                $(this).attr("href", url + $(this).attr("href"));
+            });
+            initialize();
+        }
+    }
+    xhttp.open("GET", url, true);
+    xhttp.send();
+    //location.href = url;
+}
