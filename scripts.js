@@ -18,7 +18,10 @@ var sendCommand = function() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            $("#output").append('<div class="response">' + this.responseText + '</div>');
+            var lines = this.responseText.trim().split('\n');
+            $(lines).each(function(i, line) {
+                $("#output").append('<div class="response">' + line + '</div>');
+            });
             $("#output").scrollTop($("#output")[0].scrollHeight);
             updateColors();
         }

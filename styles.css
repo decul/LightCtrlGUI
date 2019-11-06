@@ -130,7 +130,8 @@ button {
 }
 
 #output * {
-    margin-bottom: 2px;
+    margin-bottom: 3px;
+    min-height: 8px;
 }
 
 #output::-webkit-scrollbar {
@@ -147,13 +148,6 @@ button {
     outline: 1px solid #181818;
 }
 
-#output::-webkit-scrollbar-corner {
-    background-color: #1d1d1d;
-    background-image: url(img/corner.png);
-    background-position: bottom right;
-    background-repeat: no-repeat;
-}
-  
 #buttons-container {
     position: relative;
     width: 100%;
