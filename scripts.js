@@ -18,7 +18,7 @@ var sendCommand = function() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var lines = this.responseText.trim().split('\n');
+            var lines = escapeHtml(this.responseText).trim().split('\n');
             $(lines).each(function(i, line) {
                 $("#output").append('<div class="response">' + line + '</div>');
             });
@@ -93,4 +93,22 @@ var loadSite = function() {
     xhttp.open("GET", url, true);
     xhttp.send();
     //location.href = url;
+}
+
+
+var entityMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;'
+};
+
+function escapeHtml (string) {
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    });
 }
