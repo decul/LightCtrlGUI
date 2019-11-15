@@ -83,10 +83,7 @@ var loadSite = function() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
-            document.children[0].innerHTML = this.responseText;
-            $('link').each(function() {
-                $(this).attr("href", url + $(this).attr("href"));
-            });
+            document.children[0].innerHTML = this.responseText.replace(new RegExp("href=\"", 'g'), "href=\"" + url);
             initialize();
         }
     }
@@ -94,6 +91,7 @@ var loadSite = function() {
     xhttp.send();
     //location.href = url;
 }
+
 
 
 var entityMap = {

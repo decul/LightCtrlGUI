@@ -1,6 +1,6 @@
 body {
-    background: #181818;
     color: lightgrey;
+    /* background is set in index.html to avoid issues with loader */
 }
 
 .main-div {
@@ -9,6 +9,8 @@ body {
     background: #242424;
     padding: 20px;
     border-radius: 15px;
+    /* main-divs are hidden by default to avoid issues with loader */
+    display:block !important;
 }
 
 #on-off {
