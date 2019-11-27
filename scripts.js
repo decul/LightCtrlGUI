@@ -78,8 +78,6 @@ var initialize = function () {
             sendCommand();
         }
     });
-
-    window.scrollTo(0,1);
 };
 
 
