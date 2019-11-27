@@ -15,23 +15,17 @@ var sendCommand = function() {
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
 
-    if (command == "gui -v") {
-        $("#output").append('<div class="resp-deb">js v1.0.0</div>');
-        $("#output").scrollTop($("#output")[0].scrollHeight);
-    }
-    else {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var lines = escapeHtml(this.responseText).trim().split('\n');
-                $(lines).each(function(i, line) {
-                    $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
-                });
-                $("#output").scrollTop($("#output")[0].scrollHeight);
-                updateColors();
-            }
-        };
-    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var lines = escapeHtml(this.responseText).trim().split('\n');
+            $(lines).each(function(i, line) {
+                $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
+            });
+            $("#output").scrollTop($("#output")[0].scrollHeight);
+            updateColors();
+        }
+    };
 
     command = command.trim().replace(new RegExp(" ", 'g'), "/");
     xhttp.open("GET", "http://192.168.0.9/" + command, true);
@@ -84,6 +78,8 @@ var initialize = function () {
             sendCommand();
         }
     });
+
+    $("#output").append('<div style="color: #444444;">v1.0.2</div>');
 };
 
 
