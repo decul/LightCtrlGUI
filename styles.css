@@ -135,7 +135,7 @@ button {
 
 #output {
     overflow: auto;
-    height: 300px;
+    flex: 1;
 }
 
 #output * {
@@ -195,7 +195,25 @@ label input {
     cursor: pointer;
 }
 
+#full {
+    width: 16px;
+    height: 16px;
+    background-image: url("img/full.png");
+    position: absolute;
+    top: 14px;
+    left: 44px;
+    cursor: pointer;
+}
 
+#full.expanded {
+    background-image: url("img/minimize.png");
+}
+
+#console-div {
+    height: 385px;
+    display: flex !important;
+    flex-flow: column;
+}
 
 .command {
     color: #64c6ff;

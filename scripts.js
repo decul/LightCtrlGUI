@@ -73,6 +73,17 @@ var initialize = function () {
         $("#output").empty();
     })
 
+    $("#full").click(function () {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+            $("#full").removeClass("expanded");
+        }
+        else {
+            document.getElementById("console-div").requestFullscreen();
+            $("#full").addClass("expanded");
+        }
+    })
+
     $("#command-box").on('keypress',function(e) {
         if(e.which == 13) {
             sendCommand();
