@@ -18,6 +18,8 @@ body {
     margin-bottom: 16px;
 }
 
+
+
 .slider {
     width: 100%;
     padding: 10px 0;
@@ -75,7 +77,10 @@ body {
     background: #ffee52
 }
 
+
+
 button {
+    cursor: pointer;
     border: none;
     color: white;
     border-radius: 2px;
@@ -113,10 +118,12 @@ button {
     background-color: #9e4545;
 }
 
+
+
 .console {
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin-bottom: 10px;
     box-sizing: border-box;
     border-radius: 4px;
     border: 2px solid #3a3a3a;
@@ -128,7 +135,7 @@ button {
 
 #output {
     overflow: auto;
-    height: 250px;
+    height: 300px;
 }
 
 #output * {
@@ -154,7 +161,6 @@ button {
     position: relative;
     width: 100%;
     height: 44px;
-    margin-top: 8px;
 }
 
 #console-buttons {
@@ -165,14 +171,7 @@ button {
 
 #console-buttons label {
     margin-right: 20px;
-}
-
-.command {
-    color: #64c6ff;
-}
-
-.response {
-    color: #78ff67;
+    cursor: pointer;
 }
 
 label {
@@ -183,4 +182,41 @@ label input {
     position: relative;
     top: 2px;
     margin: 0;
+    cursor: pointer;
+}
+
+#clear {
+    width: 16px;
+    height: 16px;
+    background-image: url("img/clear.png");
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    cursor: pointer;
+}
+
+
+
+.command {
+    color: #64c6ff;
+}
+
+.response {
+    color: #78ff67;
+}
+
+.resp-esp {
+    color: #64c6ff;
+}
+
+.resp-ard {
+    color: #e8ff67;
+}
+
+.resp-deb {
+    color: #ffac57;
+}
+
+.resp-fail {
+    color: #ff635b;
 }

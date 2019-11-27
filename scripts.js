@@ -20,7 +20,7 @@ var sendCommand = function() {
         if (this.readyState == 4 && this.status == 200) {
             var lines = escapeHtml(this.responseText).trim().split('\n');
             $(lines).each(function(i, line) {
-                $("#output").append('<div class="response">' + line + '</div>');
+                $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
             });
             $("#output").scrollTop($("#output")[0].scrollHeight);
             updateColors();
@@ -69,12 +69,31 @@ var initialize = function () {
 
     $("#send").click(sendCommand);
 
+    $("#clear").click(function () {
+        $("#output").empty();
+    })
+
     $("#command-box").on('keypress',function(e) {
         if(e.which == 13) {
             sendCommand();
         }
     });
+
+    window.scrollTo(0,1);
 };
+
+
+
+var formatResponse = function(line) {
+    if (/\d+ (Ard|ESP|Fail|Deb): /.test(line)) {
+        var parts = line.split(" ");
+        var className = parts[1].split(":")[0].toLowerCase();
+        return parts[0] + " <span class='resp-" + className + "'>" + parts.slice(2).join(" ");
+    }
+    else {
+        return line;
+    }
+}
 
 
 
@@ -105,7 +124,7 @@ var entityMap = {
     '=': '&#x3D;'
 };
 
-function escapeHtml (string) {
+var escapeHtml = function(string) {
     return String(string).replace(/[&<>"'`=\/]/g, function (s) {
         return entityMap[s];
     });
