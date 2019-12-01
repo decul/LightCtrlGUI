@@ -164,6 +164,10 @@ button {
     outline: 1px solid #181818;
 }
 
+#command-box {
+    padding-right: 35px;
+}
+
 #clear {
     width: 16px;
     height: 16px;
