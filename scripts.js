@@ -1,3 +1,6 @@
+var jsVersion = "1.0.3";
+var respClassName = "";
+
 var execute = function(command) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", "http://192.168.0.9/" + command, true);
@@ -6,11 +9,6 @@ var execute = function(command) {
 
 var sendCommand = function() {
     var command = $("#command-box").val();
-    var erase = $("#erase").is(':checked');
-
-    if (erase) {
-        $("#command-box").val("");
-    }
 
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
@@ -22,6 +20,7 @@ var sendCommand = function() {
             $(lines).each(function(i, line) {
                 $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
             });
+            prevRespClass = "";
             $("#output").scrollTop($("#output")[0].scrollHeight);
             updateColors();
         }
@@ -90,7 +89,7 @@ var initialize = function () {
         }
     });
 
-    $("#output").append('<div style="color: #444444;">v1.0.2</div>');
+    $("#output").append('<div style="color: #444444;">v' + jsVersion + '</div>');
 };
 
 
@@ -98,8 +97,11 @@ var initialize = function () {
 var formatResponse = function(line) {
     if (/\d+ (Ard|ESP|Fail|Deb): /.test(line)) {
         var parts = line.split(" ");
-        var className = parts[1].split(":")[0].toLowerCase();
-        return parts[0] + " <span class='resp-" + className + "'>" + parts.slice(2).join(" ");
+        respClassName = parts[1].split(":")[0].toLowerCase();
+        return parts[0] + " <span class='resp-" + respClassName + "'>" + parts.slice(2).join(" ") + "</span>";
+    }
+    else if (respClassName != "") {
+        return "<span class='resp-" + respClassName + "'>" + line + "</span>";
     }
     else {
         return line;
