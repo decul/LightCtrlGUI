@@ -78,7 +78,7 @@ var initialize = function () {
             $("#full").removeClass("expanded");
         }
         else {
-            document.getElementById("console-div").requestFullscreen();
+            document.getElementById("console-window").requestFullscreen();
             $("#full").addClass("expanded");
         }
     })
