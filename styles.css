@@ -166,6 +166,11 @@ button {
     background: #151515;
 }
 
+#console-divider {
+    height: 1px;
+    background: linear-gradient(0.25turn, #181818, #404040, #181818);
+}
+
 #clear {
     width: 16px;
     height: 16px;
