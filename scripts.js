@@ -1,4 +1,4 @@
-var jsVersion = "1.0.3";
+var jsVersion = "1.0.4";
 var respClassName = "";
 
 var execute = function(command) {
@@ -8,7 +8,9 @@ var execute = function(command) {
 }
 
 var sendCommand = function() {
-    var command = $("#command-box").val();
+    var command = $("#command-box").val().trim();
+    if (command === "") 
+        return;
 
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
@@ -20,13 +22,13 @@ var sendCommand = function() {
             $(lines).each(function(i, line) {
                 $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
             });
-            prevRespClass = "";
+            respClassName = "";
             $("#output").scrollTop($("#output")[0].scrollHeight);
             updateColors();
         }
     };
 
-    command = command.trim().replace(new RegExp(" ", 'g'), "/");
+    command = command.replace(new RegExp(" ", 'g'), "/");
     xhttp.open("GET", "http://192.168.0.9/" + command, true);
     xhttp.send();
 }
@@ -95,10 +97,12 @@ var initialize = function () {
 
 
 var formatResponse = function(line) {
-    if (/\d+ (Ard|ESP|Fail|Deb): /.test(line)) {
-        var parts = line.split(" ");
-        respClassName = parts[1].split(":")[0].toLowerCase();
-        return parts[0] + " <span class='resp-" + respClassName + "'>" + parts.slice(2).join(" ") + "</span>";
+    var timeRegex = /^(\d+d )?\d+:\d+/;
+    var typeRegex = /(Ard|ESP|Fail|Deb):/;
+    if (timeRegex.test(line) && typeRegex.test(line)) {
+        var parts = line.split(typeRegex);
+        respClassName = parts[1].toLowerCase();
+        return parts[0] + " <span class='resp-" + respClassName + "'>" + parts[2] + "</span>";
     }
     else if (respClassName != "") {
         return "<span class='resp-" + respClassName + "'>" + line + "</span>";
