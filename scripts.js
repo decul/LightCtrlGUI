@@ -1,5 +1,7 @@
 var jsVersion = "1.0.4";
 var respClassName = "";
+var commands = [];
+var comIndex = 0;
 
 var execute = function(command) {
     var xhttp = new XMLHttpRequest();
@@ -12,8 +14,11 @@ var sendCommand = function() {
     if (command === "") 
         return;
 
+    storeCommand(command);
+
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
+    $(".command:last-child").click(runCommand);
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -85,11 +90,30 @@ var initialize = function () {
         }
     })
 
-    $("#command-box").on('keypress',function(e) {
-        if(e.which == 13) {
-            sendCommand();
+    $("#command-box").on('keydown',function(e) {
+        switch (e.which) {
+            case 13:    // Enter
+                sendCommand();
+                break;
+
+            case 38:    // Up
+                comIndex--;
+                loadCommand();
+                break;
+
+            case 40:    // Down
+                comIndex++;
+                loadCommand();
+                break;
+
+            case 27:    // Esc
+                comIndex = commands.length;
+                loadCommand();
+                break;
         }
     });
+
+    $("#drop-list *").click(runCommand);
 
     $("#output").append('<div style="color: #444444;">v' + jsVersion + '</div>');
 };
@@ -119,13 +143,54 @@ var loadSite = function() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
-            document.children[0].innerHTML = this.responseText.replace(new RegExp("href=\"", 'g'), "href=\"" + url);
+            document.children[0].innerHTML = this.responseText.replace(new RegExp('href="', 'g'), 'href="' + url);
             initialize();
         }
     }
     xhttp.open("GET", url, true);
     xhttp.send();
     //location.href = url;
+}
+
+var isAndroid = function() {
+    return navigator.userAgent.match(/Android/i);
+}
+
+
+
+var storeCommand = function(command) {
+    var index = commands.indexOf(command);
+    if (index >= 0) 
+        commands.splice(index, 1);
+    commands.push(command);
+    comIndex = commands.length;
+    $("#command-box").val("");
+}
+
+var loadCommand = function() {
+    if (comIndex < 0)
+        comIndex = 0;
+    if (comIndex > commands.length)
+        comIndex = commands.length;
+
+    if (comIndex == commands.length)
+        $("#command-box").val("");
+    else
+        $("#command-box").val(commands[comIndex]);
+
+    event.preventDefault();
+}
+
+var runCommand = function(e) {
+    var cmd = e.currentTarget.attributes["cmd"];
+    if (cmd != null)
+        $("#command-box").val(cmd.value);
+    else
+        $("#command-box").val(e.currentTarget.innerText);
+
+    if (!isAndroid())
+        $("#command-box").focus();
+    commIndex = commands.length;
 }
 
 

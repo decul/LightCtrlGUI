@@ -33,8 +33,9 @@ body {
     background: #464646;
     outline: none;
     opacity: 0.8;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+    cursor: pointer;
 }
 
 .slider input:hover {
@@ -126,6 +127,7 @@ button {
     display: flex;
     flex-flow: column;
     position: relative;
+    font: 400 13.3333px Arial;
 }
 
 .console {
@@ -134,7 +136,6 @@ button {
     background: #181818;
     color: lightgrey;
     outline: none;
-    font: 400 13.3333px Arial;
 }
 
 #output {
@@ -145,10 +146,16 @@ button {
 #output * {
     margin-bottom: 3px;
     min-height: 8px;
+    width: fit-content;
 }
 
 #output::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
+}
+
+#output::-webkit-scrollbar-corner {
+    background: #181818;
 }
  
 #output::-webkit-scrollbar-track {
@@ -171,30 +178,27 @@ button {
     background: linear-gradient(0.25turn, #181818, #404040, #181818);
 }
 
-#clear {
+.img-btn {
     width: 32px;
     height: 32px;
-    background-image: url("img/clear.png");
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.6;
     position: absolute;
-    top: 4px;
-    right: 38px;
     cursor: pointer;
+    opacity: 0.6;
+}
+
+#clear {
+    background-image: url("img/clear.png");
+    opacity: 0.6;
+    top: 4px;
+    right: 72px;
 }
 
 #full {
-    width: 32px;
-    height: 32px;
     background-image: url("img/full.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.6;
-    position: absolute;
     top: 4px;
     right: 4px;
-    cursor: pointer;
 }
 
 #send {
@@ -202,13 +206,40 @@ button {
     height: 39px;
     background-image: url("img/send.png");
     background-size: 16px 16px;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: absolute;
     bottom: 0;
     right: 0;
-    cursor: pointer;
+    opacity: 1.0;
 }
+
+#drop-down {
+    background-image: url("img/cmd.png");
+    top: 4px;
+    right: 38px;
+}
+
+#drop-list {
+    background: #151515;
+    border: solid 1px #333333;
+    border-radius: 5px;
+    display: none;
+    position: absolute;
+    top: 32px;
+    right: 0px;
+}
+
+#drop-list div {
+    min-width: max-content;
+    padding: 12px 16px;
+    border-radius: 5px;
+}
+
+#drop-list div:hover {
+    background: #1c1c1c;
+}
+
+#drop-down:hover #drop-list {
+    display: block;
+  }
 
 #full.expanded {
     background-image: url("img/minimize.png");
@@ -216,6 +247,7 @@ button {
 
 .command {
     color: #64c6ff;
+    cursor: pointer;
 }
 
 .response {
