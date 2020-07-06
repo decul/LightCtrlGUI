@@ -3,9 +3,11 @@ var respClassName = "";
 var commands = [];
 var comIndex = 0;
 
+var lampAddress = "http://" + ($(location).attr('hostname') || "192.168.0.9") + "/";
+
 var execute = function(command) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "http://192.168.0.9/" + command, true);
+    xhttp.open("GET", lampAddress + command, true);
     xhttp.send();
 }
 
@@ -34,7 +36,7 @@ var sendCommand = function() {
     };
 
     command = command.replace(new RegExp(" ", 'g'), "/");
-    xhttp.open("GET", "http://192.168.0.9/" + command, true);
+    xhttp.open("GET", lampAddress + command, true);
     xhttp.send();
 }
 
@@ -48,7 +50,7 @@ var updateColors = function() {
             });
         }
     };
-    xhttp.open("GET", "http://192.168.0.9/color", true);
+    xhttp.open("GET", lampAddress + "color", true);
     xhttp.send();
 }
 
