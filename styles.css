@@ -13,6 +13,10 @@ body {
     display:block !important;
 }
 
+#upper-div {
+    position: relative;
+}
+
 #on-off {
     float: right;
     margin-bottom: 17px;
@@ -188,6 +192,15 @@ button {
     opacity: 0.6;
 }
 
+#exclamation {
+    display: none;
+    background-image: url("img/exc3.png");
+    background-size: 24px 24px;
+    opacity: 1.0;
+    top: 20px;
+    left: 22px;
+}
+
 #clear {
     background-image: url("img/clear.png");
     opacity: 0.6;
@@ -233,6 +246,10 @@ button {
     border-radius: 5px;
 }
 
+#drop-list div[sendOnClick] {
+    color: #9ade77;
+}
+
 #drop-list div:hover {
     background: #1c1c1c;
 }
@@ -245,27 +262,23 @@ button {
     background-image: url("img/minimize.png");
 }
 
-.command {
-    color: #64c6ff;
+.command, .resp-esp {
+    color: #9cdcfe;
     cursor: pointer;
 }
 
 .response {
-    color: #78ff67;
+    color: #80de6f;
 }
 
-.resp-esp {
-    color: #64c6ff;
+.resp-ard, .resp-i {
+    color: #f9f9a8;
 }
 
-.resp-ard {
-    color: #e8ff67;
+.resp-deb, .resp-d {
+    color: #f1ad7d;
 }
 
-.resp-deb {
-    color: #ffac57;
-}
-
-.resp-fail {
-    color: #ff635b;
+.resp-fail, .resp-e {
+    color: #f37a7a;
 }

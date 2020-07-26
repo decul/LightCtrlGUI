@@ -9,26 +9,27 @@
 </head>
 
 <body style = "background: #151515;">
-    <div class="main-div" style = "display:none;">
+    <div id="upper-div" class="main-div" style = "display:none;">
+        <div id="exclamation" class="img-btn"></div>
         <div id="on-off">
             <button id="on" class="green">ON</button>
             <button id="off" class="red">OFF</button>
         </div>
         <div>
             <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="red">
+                <input type="range" min="0" max="1000" value="0" id="red">
             </div>
             <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="green">
+                <input type="range" min="0" max="1000" value="0" id="green">
             </div>
             <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="blue">
+                <input type="range" min="0" max="1000" value="0" id="blue">
             </div>
             <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="cold">
+                <input type="range" min="0" max="1000" value="0" id="cold">
             </div>
             <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="warm">
+                <input type="range" min="0" max="1000" value="0" id="warm">
             </div>
         </div>
     </div>
@@ -42,11 +43,10 @@
             <div id="send" class="img-btn"></div>
             <div id="drop-down" class="img-btn">
                 <div id="drop-list">
-                    <div>Debug</div>
-                    <div cmd="wifi debug f">Debug WiFi</div>
-                    <div>Xmas</div>
-                    <div>Filter</div>
-                    <div>Help</div>
+                    <div sendOnClick>Dimmer OFF</div>
+                    <div sendOnClick>Log</div>
+                    <div sendOnClick>Help</div>
+                    <div cmd="flash 10000">Flash</div>
                 </div>
             </div>
         </div>

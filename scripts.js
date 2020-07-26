@@ -3,6 +3,9 @@ var respClassName = "";
 var commands = [];
 var comIndex = 0;
 
+var queuedCmd = "";
+var httpBusy = false;
+
 var lampAddress = "http://" + ($(location).attr('hostname') || "192.168.0.9") + "/";
 
 var execute = function(command) {
@@ -11,23 +14,57 @@ var execute = function(command) {
     xhttp.send();
 }
 
-var sendCommand = function() {
+var addCmdToQueue = function(command) {
+    queuedCmd = command;
+    executeQueuedCmd();
+}
+
+var executeQueuedCmd = function() {
+    if (httpBusy || !queuedCmd)
+        return;
+
+    httpBusy = true;
+    var xhttp = new XMLHttpRequest();
+    xhttp.timeout = 5000;
+    xhttp.open("GET", lampAddress + queuedCmd, true);
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            httpBusy = false;
+            executeQueuedCmd();
+        }
+    };
+    xhttp.ontimeout = function () {
+        httpBusy = false;
+        executeQueuedCmd();
+    };
+    xhttp.send();
+    queuedCmd = "";
+}
+
+var sendUserCommand = function() {
     var command = $("#command-box").val().trim();
     if (command === "") 
         return;
 
     storeCommand(command);
+    sendCommand(command);
+}
 
+var sendCommand = function(command) {
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
     $(".command:last-child").click(runCommand);
 
     var xhttp = new XMLHttpRequest();
+    xhttp.timeout = 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4) {
+            var className = "response";
+            if (this.status >= 400)
+                className = "resp-e";
             var lines = escapeHtml(this.responseText).trim().split('\n');
             $(lines).each(function(i, line) {
-                $("#output").append('<div class="response">' + formatResponse(line) + '</div>');
+                $("#output").append('<div class="' + className + '">' + formatResponse(line) + '</div>');
             });
             respClassName = "";
             $("#output").scrollTop($("#output")[0].scrollHeight);
@@ -46,7 +83,7 @@ var updateColors = function() {
         if (this.readyState == 4 && this.status == 200) {
             var colors = this.responseText.split(" ");
             $(".slider input").each(function (i) {
-                this.value = parseFloat(colors[i]) * 100;
+                this.value = parseFloat(colors[i]) * 1000;
             });
         }
     };
@@ -59,6 +96,10 @@ var initialize = function () {
 
     $(window).on('focus', updateColors);
 
+    $("#exclamation").click(function () {
+        sendCommand("log e");
+    });
+    
     $("#on").click(function () {
         execute("on");
     });
@@ -70,12 +111,12 @@ var initialize = function () {
     $(".slider input").on('input', function () {
         var command = "color";
         $(".slider input").each(function (i) {
-            command += "/" + (this.value / 100);
-        })
-        execute(command);
+            command += "/" + (this.value / 1000);
+        });
+        addCmdToQueue(command);
     });
 
-    $("#send").click(sendCommand);
+    $("#send").click(sendUserCommand);
 
     $("#clear").click(function () {
         $("#output").empty();
@@ -95,7 +136,7 @@ var initialize = function () {
     $("#command-box").on('keydown',function(e) {
         switch (e.which) {
             case 13:    // Enter
-                sendCommand();
+                sendUserCommand();
                 break;
 
             case 38:    // Up
@@ -123,13 +164,23 @@ var initialize = function () {
 
 
 var formatResponse = function(line) {
-    var timeRegex = /^(\d+d )?\d+:\d+/;
-    var typeRegex = /(Ard|ESP|Fail|Deb):/;
-    if (timeRegex.test(line) && typeRegex.test(line)) {
-        var parts = line.split(typeRegex);
+    var logRegex = /^(\d\d\d\d-\d\d-\d\dT)?\d\d:\d\d:\d\d (I|D|E): /;
+
+    var oldTimeRegex = /^(\d+d )?\d+:\d+/;
+    var oldTypeRegex = /(Ard|ESP|Fail|Deb):/;
+
+    if (logRegex.test(line)) {
+        var parts = line.split(" ");
+        respClassName = parts[1].toLowerCase()[0];
+        return parts[0].replace("T", " ") + " <span class='resp-" + respClassName + "'>" + parts.slice(2).join(" ") + "</span>";
+    }
+
+    if (oldTimeRegex.test(line) && oldTypeRegex.test(line)) {
+        var parts = line.split(oldTypeRegex);
         respClassName = parts[1].toLowerCase();
         return parts[0] + " <span class='resp-" + respClassName + "'>" + parts[2] + "</span>";
     }
+
     else if (respClassName != "") {
         return "<span class='resp-" + respClassName + "'>" + line + "</span>";
     }
@@ -193,6 +244,10 @@ var runCommand = function(e) {
     if (!isAndroid())
         $("#command-box").focus();
     commIndex = commands.length;
+
+    var sendOnClick = e.currentTarget.attributes["sendOnClick"];
+    if (sendOnClick) 
+        sendUserCommand();
 }
 
 
