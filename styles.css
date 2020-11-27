@@ -82,6 +82,10 @@ body {
     background: #ffee52
 }
 
+#bright::-webkit-slider-thumb {
+    background: #777777
+}
+
 
 
 button {
