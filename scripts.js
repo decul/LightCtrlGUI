@@ -11,6 +11,11 @@ var lampAddress = "http://" + ($(location).attr('hostname') || "192.168.0.9") + 
 var execute = function(command) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET", lampAddress + command, true);
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4) {
+            processResponse(this.responseText);
+        }
+    };
     xhttp.send();
 }
 
@@ -30,6 +35,7 @@ var executeQueuedCmd = function() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             httpBusy = false;
+            processResponse(this.responseText, true);
             executeQueuedCmd();
         }
     };
@@ -46,29 +52,32 @@ var sendUserCommand = function() {
     if (command === "") 
         return;
 
-    storeCommand(command);
     sendCommand(command);
 }
 
 var sendCommand = function(command) {
+    storeCommand(command);
+    
     $("#output").append('<div class="command">' + command + '</div>');   
     $("#output").scrollTop($("#output")[0].scrollHeight);
     $(".command:last-child").click(runCommand);
 
     var xhttp = new XMLHttpRequest();
-    xhttp.timeout = 
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
             var className = "response";
             if (this.status >= 400)
                 className = "resp-e";
-            var lines = escapeHtml(this.responseText).trim().split('\n');
+
+            var lines = processResponse(this.responseText).split('\n');
+            if (lines.length == 0)
+                lines.push(this.status)
+
             $(lines).each(function(i, line) {
                 $("#output").append('<div class="' + className + '">' + formatResponse(line) + '</div>');
             });
             respClassName = "";
             $("#output").scrollTop($("#output")[0].scrollHeight);
-            updateColors();
         }
     };
 
@@ -77,24 +86,37 @@ var sendCommand = function(command) {
     xhttp.send();
 }
 
-var updateColors = function() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var colors = this.responseText.split(" ");
-            $(".slider input").each(function (i) {
+var processResponse = function(response, skipColor = false) {
+    var respObj = jQuery.parseJSON(response.trim().replace(/\n/g, "\\n"));
+
+    if (!skipColor && respObj.hasOwnProperty("col")) {
+        var colors = respObj.col.split(" ");
+        $(".slider input").each(function (i) {
+            if (i < colors.length) {
                 this.value = parseFloat(colors[i]) * 1000;
-            });
-        }
-    };
-    xhttp.open("GET", lampAddress + "color", true);
-    xhttp.send();
+            }
+        });
+    }
+
+    if (respObj.hasOwnProperty("err")) {
+        if (respObj.err) 
+            $("#exclamation").show();
+        else 
+            $("#exclamation").hide();
+    }
+
+    if (respObj.hasOwnProperty("resp")) 
+        return escapeHtml(respObj.resp);
+    else 
+        return "";
 }
 
 var initialize = function () {
-    updateColors();
+    execute("status");
 
-    $(window).on('focus', updateColors);
+    $(window).on('focus', function () {
+        execute("status");
+    });
 
     $("#exclamation").click(function () {
         sendCommand("log e");
@@ -120,7 +142,7 @@ var initialize = function () {
 
     $("#clear").click(function () {
         $("#output").empty();
-    })
+    });
 
     $("#full").click(function () {
         if (document.fullscreenElement) {
@@ -131,7 +153,7 @@ var initialize = function () {
             document.getElementById("console-window").requestFullscreen();
             $("#full").addClass("expanded");
         }
-    })
+    });
 
     $("#command-box").on('keydown',function(e) {
         switch (e.which) {

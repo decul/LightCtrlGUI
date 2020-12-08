@@ -198,8 +198,7 @@ button {
 
 #exclamation {
     display: none;
-    background-image: url("img/exc3.png");
-    background-size: 24px 24px;
+    background-image: url("img/exclamation_small.png");
     opacity: 1.0;
     top: 20px;
     left: 22px;
@@ -248,10 +247,6 @@ button {
     min-width: max-content;
     padding: 12px 16px;
     border-radius: 5px;
-}
-
-#drop-list div[sendOnClick] {
-    color: #9ade77;
 }
 
 #drop-list div:hover {
