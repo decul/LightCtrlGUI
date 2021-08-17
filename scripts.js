@@ -214,7 +214,7 @@ var formatResponse = function(line) {
 
 
 var loadSite = function() {
-    var url = "https://decul.github.io/LightCtrl/";
+    var url = "https://decul.github.io/LightCtrlGUI/";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4) {
