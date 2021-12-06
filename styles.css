@@ -253,9 +253,16 @@ button {
     background: #1c1c1c;
 }
 
+#drop-list hr {
+    border: 0px;
+    border-top: 1px solid #333333;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
 #drop-down:hover #drop-list {
     display: block;
-  }
+}
 
 #full.expanded {
     background-image: url("img/minimize.png");

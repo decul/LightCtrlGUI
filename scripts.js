@@ -131,7 +131,7 @@ var initialize = function () {
     });
 
     $(".slider input").on('input', function () {
-        var command = "color";
+        var command = "transit";
         $(".slider input").each(function (i) {
             command += "/" + (this.value / 1000);
         });
