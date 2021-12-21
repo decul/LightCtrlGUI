@@ -1,5 +1,4 @@
 var jsVersion = "1.0.4";
-var respClassName = "";
 var commands = [];
 var comIndex = 0;
 
@@ -76,7 +75,6 @@ var sendCommand = function(command) {
             $(lines).each(function(i, line) {
                 $("#output").append('<div class="' + className + '">' + formatResponse(line) + '</div>');
             });
-            respClassName = "";
             $("#output").scrollTop($("#output")[0].scrollHeight);
         }
     };
@@ -186,29 +184,25 @@ var initialize = function () {
 
 
 var formatResponse = function(line) {
-    var logRegex = /^(\d\d\d\d-\d\d-\d\dT)?\d\d:\d\d:\d\d (I|D|E): /;
-
-    var oldTimeRegex = /^(\d+d )?\d+:\d+/;
-    var oldTypeRegex = /(Ard|ESP|Fail|Deb):/;
+    var logRegex      = /^(\d\d\d\d-\d\d-\d\dT)?\d\d:\d\d:\d\d (I|D|E): /;
+    var onOffLogRegex = /^(\d\d\d\d-\d\d-\d\dT)?\d\d:\d\d:\d\d (ON|OFF)$/;
 
     if (logRegex.test(line)) {
         var parts = line.split(" ");
-        respClassName = parts[1].toLowerCase()[0];
-        return parts[0].replace("T", " ") + " <span class='resp-" + respClassName + "'>" + parts.slice(2).join(" ") + "</span>";
+        var time = parts[0].replace("T", " ");
+        var className = parts[1].toLowerCase()[0];
+        var content = parts.slice(2).join(" ");
+        return time + " <span class='resp-" + className + "'>" + content + "</span>";
     }
 
-    if (oldTimeRegex.test(line) && oldTypeRegex.test(line)) {
-        var parts = line.split(oldTypeRegex);
-        respClassName = parts[1].toLowerCase();
-        return parts[0] + " <span class='resp-" + respClassName + "'>" + parts[2] + "</span>";
+    if (onOffLogRegex.test(line)) {
+        var parts = line.split(" ");
+        var time = parts[0].replace("T", " ");
+        var className = parts[1].toLowerCase();
+        return "<span class='resp-" + className + "'>" + time + "</span>";
     }
 
-    else if (respClassName != "") {
-        return "<span class='resp-" + respClassName + "'>" + line + "</span>";
-    }
-    else {
-        return line;
-    }
+    return line;
 }
 
 

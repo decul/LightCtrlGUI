@@ -268,23 +268,23 @@ button {
     background-image: url("img/minimize.png");
 }
 
-.command, .resp-esp {
+.command {
     color: #9cdcfe;
     cursor: pointer;
 }
 
-.response {
+.response, .resp-on {
     color: #80de6f;
 }
 
-.resp-ard, .resp-i {
+.resp-i {
     color: #f9f9a8;
 }
 
-.resp-deb, .resp-d {
+.resp-d {
     color: #f1ad7d;
 }
 
-.resp-fail, .resp-e {
+.resp-e, .resp-off {
     color: #f37a7a;
 }
