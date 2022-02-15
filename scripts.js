@@ -1,4 +1,4 @@
-var jsVersion = "1.0.4";
+var jsVersion = "1.0.5";
 var commands = [];
 var comIndex = 0;
 
@@ -129,7 +129,7 @@ var initialize = function () {
     });
 
     $(".slider input").on('input', function () {
-        var command = "transit";
+        var command = "color";
         $(".slider input").each(function (i) {
             command += "/" + (this.value / 1000);
         });
