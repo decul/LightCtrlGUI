@@ -144,6 +144,8 @@ button {
     background: #181818;
     color: lightgrey;
     outline: none;
+    font-family: Consolas, monaco, monospace;
+    font-size: 14px;
 }
 
 #output {
@@ -152,7 +154,7 @@ button {
 }
 
 #output * {
-    margin-bottom: 3px;
+    margin-bottom: 2px;
     min-height: 8px;
     width: fit-content;
 }
@@ -179,6 +181,8 @@ button {
 #command-box {
     padding-right: 40px;
     background: #151515;
+    font-family: Consolas, monaco, monospace;
+    font-size: 14px;
 }
 
 #console-divider {
