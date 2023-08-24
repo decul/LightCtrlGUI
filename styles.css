@@ -190,51 +190,70 @@ button {
     background: linear-gradient(0.25turn, #181818, #404040, #181818);
 }
 
-.img-btn {
-    width: 32px;
-    height: 32px;
-    background-position: center;
-    background-repeat: no-repeat;
+svg {
+    height: 16px;
+    width: 16px;
+    padding: 8px;
+    stroke: #c5c5c5;
+    stroke-width: 2px;
+    fill: none;
     position: absolute;
     cursor: pointer;
     opacity: 0.6;
 }
 
 #exclamation {
+    width: 32px;
+    height: 32px;
+    padding: 0;
     display: none;
-    background-image: url("img/exclamation_small.png");
-    opacity: 1.0;
     top: 20px;
     left: 22px;
+    stroke-linecap: round;
+    stroke: #e2574c;
+    opacity: 1.0;
+}
+#exclamation .dot {
+    stroke: none;
+    fill: #e2574c;
 }
 
 #clear {
-    background-image: url("img/clear.png");
-    opacity: 0.6;
     top: 4px;
     right: 72px;
 }
+#clear .red {
+    stroke: #f48771;
+    stroke-width: 1.7;
+}
 
 #full {
-    background-image: url("img/full.png");
     top: 4px;
     right: 4px;
 }
+#full.expanded .maximise,
+#full:not(.expanded) .minimise {
+    display: none;
+}
 
 #send {
-    width: 39px;
-    height: 39px;
-    background-image: url("img/send.png");
-    background-size: 16px 16px;
+    width: 21px;
+    height: 20px;
+    padding: 10px;
     bottom: 0;
     right: 0;
     opacity: 1.0;
+    stroke: none;
+    fill: #6e6e6e;
 }
 
 #drop-down {
-    background-image: url("img/cmd.png");
+    width: 32px;
+    height: 32px;
+    position: absolute;
     top: 4px;
     right: 38px;
+    cursor: pointer;
 }
 
 #drop-list {
@@ -266,10 +285,6 @@ button {
 
 #drop-down:hover #drop-list {
     display: block;
-}
-
-#full.expanded {
-    background-image: url("img/minimize.png");
 }
 
 .command {

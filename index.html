@@ -10,7 +10,11 @@
 
 <body style = "background: #151515;">
     <div id="upper-div" class="main-div" style = "display:none;">
-        <div id="exclamation" class="img-btn"></div>
+        <svg id="exclamation" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="11"></circle>
+            <circle class="dot" cx="16" cy="21" r="1.1"></circle>
+            <path d="M16,10.5 v7"></path>
+        </svg>
         <div id="on-off">
             <button id="on" class="green">ON</button>
             <button id="off" class="red">OFF</button>
@@ -41,10 +45,21 @@
             <div id="output" class="console"></div>
             <div id="console-divider"></div>
             <input type="text" id="command-box" class="console"/>
-            <div id="clear" class="img-btn"></div>
-            <div id="full" class="img-btn"></div>
-            <div id="send" class="img-btn"></div>
-            <div id="drop-down" class="img-btn">
+            <svg id="clear" viewBox="0 0 16 16">
+                <path d="M8,2 h7 M8,6 h7 M2,10 h13 M2,14 h13"></path>
+                <path class="red" d="M1.5,1.5 L6.5,6.5 M1.5,6.5 L6.5,1.5"></path>
+            </svg>
+            <svg id="full" viewBox="0 0 16 16">
+                <path class="maximise" d="M10,2 h4 v4 M14,10 v4 h-4 M6,14 h-4 v-4 M2,6 v-4 h4"></path>
+                <path class="minimise" d="M11,1 v4 h4 M15,11 h-4 v4 M5,15 v-4 h-4 M1,5 h4 v-4"></path>
+            </svg>
+            <svg id="send" viewBox="0 0 20 20">
+                <path d="M1.5 2.25a.755.755 0 0 1 1-.71l15.596 7.807a.73.73 0 0 1 0 1.306L2.5 18.46l-.076.018a.749.749 0 0 1-.924-.728v-4.54c0-1.21.97-2.229 2.21-2.25l6.54-.17c.27-.01.75-.24.75-.79s-.5-.79-.75-.79l-6.54-.17A2.253 2.253 0 0 1 1.5 6.789v-4.54Z"></path>
+            </svg>
+            <div id="drop-down">
+                <svg class="cmd-icon" viewBox="0 0 16 16">
+                    <path d="M1.5,1.5 L7,7 L1.5,12.5 M9,14 h6"></path>
+                </svg>
                 <div id="drop-list">
                     <div sendOnClick>Day</div>
                     <div sendOnClick>Evening</div>
